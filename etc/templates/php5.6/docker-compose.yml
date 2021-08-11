@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    app:
+        image: artklen/apache-php5.6:1.0.0
+        environment:
+            - SSMTP_FROM_HOSTNAME=mailer.${DOMAIN}
+        restart: always
+        volumes:
+            - ./www/:/var/www/html/
+            - ./logs/:/var/log/apache2/
+            - ./tmp/:/tmp/
+            - /var/run/mysqld/:/var/run/mysqld/
+        networks:
+            default:
+                aliases:
+                    - ${DOMAIN}.docker
+networks:
+    default:
+        external:
+            name: internal
